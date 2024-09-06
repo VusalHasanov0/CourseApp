@@ -12,9 +12,14 @@ namespace efcoreApp.Controllers
         {
             _context = context;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var KursKayitlari = await _context
+            .KursKayitlari
+            .Include(i=>i.Ogrenci)
+            .Include(i=>i.Kurs)
+            .ToListAsync();
+            return View(KursKayitlari);
         }
 
         public async Task<IActionResult> Create()
